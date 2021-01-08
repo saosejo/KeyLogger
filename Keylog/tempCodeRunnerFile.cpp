@@ -1,0 +1,1 @@
+HKL KeyboardLayout = GetKeyboardLayout(0);
