@@ -1,0 +1,3 @@
+﻿  Keylogger.cpp
+C:\Users\SantiagoOsejoZuluaga\Documents\IT\keylogger\Keylogger.cpp(15,5): warning C4551: function call missing argument list
+  keylogger.vcxproj -> C:\Users\SantiagoOsejoZuluaga\Documents\IT\keylogger\Debug\keylogger.exe
