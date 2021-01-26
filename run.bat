@@ -1,1 +1,0 @@
-jre1.8.0_271\bin\java.exe -jar myapp-1.0-SNAPSHOT.jar
